@@ -7,6 +7,7 @@ TagManager:
   - Salida
   - Enemigo
   - Moneda
+  - Checkpoint
   layers:
   - Default
   - TransparentFX

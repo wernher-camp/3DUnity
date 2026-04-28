@@ -11,19 +11,17 @@ public class Esfera : MonoBehaviour
 
 public float velocidad = 10;
 int Monedas =0;
-    Vector3 positionInicial;
+   Vector3 checkpointActual;
     Rigidbody MyRigidbody;
  
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         MyRigidbody = GetComponent<Rigidbody>();
-        positionInicial = transform.position;
+        checkpointActual = transform.position;
         
     }
 
-    // Update is called once per frame
     void Update()
     {
         float vertical = Input.GetAxis("Vertical");
@@ -34,23 +32,37 @@ int Monedas =0;
     
     }
 
-    void OnTriggerEnter(Collider otro){
-        if (otro.CompareTag("Salida"))
+   void OnTriggerEnter(Collider otro)
+    {
+        //  Si se toca la esfera aparece en el ultimo check
+        if (otro.CompareTag("Checkpoint"))
         {
-           Debug.Log ("Felicidades, has llegao y has recolectado " + Monedas + " monedas");
+            checkpointActual = otro.transform.position;
+            Debug.Log("Checkpoint alcanzado " );
         }
+
+        // cuando pierde se transporta al ultimo check
         else if (otro.CompareTag("Enemigo"))
         {
-            MyRigidbody.MovePosition(positionInicial);
+
+            transform.position = checkpointActual;
+            
+            // Se elimina velocidad y rotacion para que no avance
             MyRigidbody.linearVelocity = Vector3.zero;
             MyRigidbody.angularVelocity = Vector3.zero;
-            Monedas = 0;
+            
+            Debug.Log("Has perdido. Reapareciendo en el último punto, cuidado con los enemigos");
+        }
+
+        //  se manda mensaje cuando pasas cada punto
+        else if (otro.CompareTag("Salida"))
+        {
+            Debug.Log("Felicidades, has llegado con " + Monedas + " monedas y continuas al siguiente nivel");
         }
         else if (otro.CompareTag("Moneda"))
         {
             otro.gameObject.SetActive(false);
-            Monedas= Monedas+1;
+            Monedas++;
         }
     }
-    
 }
