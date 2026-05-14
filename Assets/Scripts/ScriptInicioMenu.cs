@@ -5,6 +5,7 @@ public class ScriptInicioMenu : MonoBehaviour
 {
 public GameObject Menu;
 public GameObject Opciones;
+public AudioSource miMusica;
 
 public void AbrirOpciones()
     {
@@ -25,7 +26,16 @@ public void AbrirOpciones()
 
     public void CambiarEscena()
  {
-        SceneManager.LoadScene("Juego");
+        SceneManager.LoadScene("Nivel 1");
     }
     
+public void CambiarVolumen(float valor)
+    {
+        miMusica.volume = valor;
+    }
+
+    public void OnOffMusica(bool estado)
+    {
+        miMusica.mute = !estado;
+    }
 }
